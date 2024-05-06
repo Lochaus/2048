@@ -7,7 +7,17 @@ window.onload = function() {
     setGame();
 }
 
+function newGame() {
+    let text = "Are you sure you want to start a new game?"
+    if (confirm(text)) {
+        setGame()
+    }
+    return
+}
+
 function setGame() {
+    document.getElementById("board").innerHTML = ""
+
     board = [
         [0,0,0,0],
         [0,0,0,0],

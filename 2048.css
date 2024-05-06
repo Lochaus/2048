@@ -6,6 +6,16 @@ body {
 hr {
     width: 200px;
 }
+
+#newGame {
+    border-radius: 3px;
+    margin: 10p;
+    background-color: #8C7B69;
+    color: white;
+    margin-bottom: 20px;
+    border: none;
+}
+
 #board {
     width: 400px;
     height: 400px;
