@@ -2,6 +2,7 @@ var board
 var score = 0
 var rows = 4
 var columns = 4
+var copyBoard = []
 
 window.onload = function() {
     setGame();
@@ -16,6 +17,7 @@ function newGame() {
 }
 
 function setGame() {
+    score = 0
     document.getElementById("board").innerHTML = ""
 
     board = [
@@ -86,15 +88,19 @@ document.addEventListener("keyup", (e) => {
     if (e.code == "ArrowLeft") {
         slideLeft()
         setTwo()
+        endGame()
     } else if (e.code == "ArrowRight") {
         slideRight()
         setTwo()
+        endGame()
     } else if (e.code == "ArrowUp") {
         slideUp()
         setTwo()
+        endGame()
     } else if (e.code == "ArrowDown") {
         slideDown()
         setTwo()
+        endGame()
     }
     document.getElementById("score").innerText = score
 })
@@ -128,7 +134,6 @@ function slideLeft() {
         let row = board[r]
         row = slide(row)
         board[r] = row
-
         for (let c = 0; c < columns; c++) {
             let tile = document.getElementById(r.toString() + "-" + c.toString())
             let num = board[r][c]
@@ -144,7 +149,6 @@ function slideRight() {
         row = slide(row)
         row.reverse()
         board[r] = row
-
         for (let c = 0; c < columns; c++) {
             let tile = document.getElementById(r.toString() + "-" + c.toString())
             let num = board[r][c]
@@ -179,4 +183,87 @@ function slideDown() {
             updateTile(tile, num)
         }
     }
+}
+
+function slideLeftTest() {
+    for (let r = 0; r < rows; r++) {
+        let row = copyBoard[r]
+        row = slide(row)
+        copyBoard[r] = row
+    }
+    return
+}
+
+function slideRightTest() {
+    for (let r = 0; r < rows; r++) {
+        let row = copyBoard[r]
+        row.reverse()
+        row = slide(row)
+        row.reverse()
+        copyBoard[r] = row
+    }
+    return
+}
+
+function slideUpTest() {
+    for (let c = 0; c < columns; c++) {
+        let row = [copyBoard[0][c], copyBoard[1][c],  copyBoard[2][c],  copyBoard[3][c]]
+        row = slide(row)
+        for (let r = 0; r < rows; r++) {
+            copyBoard[r][c] = row[r]
+        }
+    }
+    return
+}
+
+function slideDownTest() {
+    for (let c = 0; c < columns; c++) {
+        let row = [copyBoard[0][c], copyBoard[1][c],  copyBoard[2][c],  copyBoard[3][c]]
+        row.reverse()
+        row = slide(row)
+        row.reverse()
+        for (let r = 0; r < rows; r++) {
+            copyBoard[r][c] = row[r]
+        }
+    }
+    return
+}
+
+function arraysEqual() {
+    for (let r = 0; r<rows; r++) {
+        for (let c = 0; c<columns; c++) {
+            if (board[r][c] != copyBoard[r][c]) {
+                return false
+            }
+        }
+    }
+    return true
+}
+
+function endGame() {
+    copyBoard = []
+    for (let r = 0; r<rows; r++) {
+        let row = []
+        for (let c = 0; c<columns; c++) {
+            row.push(board[r][c])
+        }
+        copyBoard.push(row)
+    }
+    slideLeftTest()
+    if (arraysEqual() == false) {
+        return
+    }
+    slideRightTest()
+    if (arraysEqual() == false) {
+        return
+    }
+    slideUpTest()
+    if (arraysEqual() == false) {
+        return
+    }
+    slideDownTest()
+    if (arraysEqual() == false) {
+        return
+    }
+    setGame()
 }
