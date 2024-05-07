@@ -36,8 +36,8 @@ function setGame() {
             document.getElementById("board").append(tile)
         }
     }
-    setTwo()
-    setTwo()
+    newTile()
+    newTile()
 }
 
 function hasEmptyTile() {
@@ -52,7 +52,7 @@ function hasEmptyTile() {
     return false;
 }
 
-function setTwo() {
+function newTile() {
     if (!hasEmptyTile()) {
         return;
     }
@@ -62,11 +62,18 @@ function setTwo() {
         let r = Math.floor(Math.random() * rows);
         let c = Math.floor(Math.random() * columns);
         if (board[r][c] == 0) {
-            board[r][c] = 2;
-            let tile = document.getElementById(r.toString() + "-" + c.toString());
-            tile.innerText = "2";
-            tile.classList.add("t2");
-            found = true;
+            if (Math.floor(Math.random()*10) < 1){
+                board[r][c] = 4
+                let tile = document.getElementById(r.toString() + "-" + c.toString())
+                tile.innerText = "4"
+                tile.classList.add("t4")
+            } else {
+                board[r][c] = 2
+                let tile = document.getElementById(r.toString() + "-" + c.toString())
+                tile.innerText = "2"
+                tile.classList.add("t2")
+            }
+            found = true
         }
     }
 }
@@ -87,19 +94,19 @@ function updateTile(tile, num) {
 document.addEventListener("keyup", (e) => {
     if (e.code == "ArrowLeft") {
         slideLeft()
-        setTwo()
+        newTile()
         endGame()
     } else if (e.code == "ArrowRight") {
         slideRight()
-        setTwo()
+        newTile()
         endGame()
     } else if (e.code == "ArrowUp") {
         slideUp()
-        setTwo()
+        newTile()
         endGame()
     } else if (e.code == "ArrowDown") {
         slideDown()
-        setTwo()
+        newTile()
         endGame()
     }
     document.getElementById("score").innerText = score
